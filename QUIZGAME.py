@@ -10,7 +10,7 @@ class GameFlow:
         self.diff = 1
         self.prizeMoney = 0
         self.i = 0
-        self.lifeline = ['2x', 'Flip the question', 'Expert Advice']
+        self.lifeline = {1: '2x', 2: 'Flip the question', 3: 'Expert Advice'}
         self.flag = True
         self.flag2 = False
 
@@ -92,44 +92,58 @@ class GameFlow:
             self.bonusQuestion()
 
     def lifelines(self, question, answer):
-        print('Available lifeline are: ')
-        [print("{}: {}".format(j+1, self.lifeline[j])) for j in range(len(self.lifeline))]
-        ll = int(input('Enter the number: '))
-        if str(ll) == '1':
-            if self.lifeline[ll-1] == 'NUll':
-                print('Already used !!')
-                self.lifelines(question, answer)
-            var = self.func2x(question, answer, ll-1)
-            return var
-        elif str(ll) == '2:':
-            new_question = self.ftq(question['id'], ll-1)
-            return self.process(new_question)
-        elif str(ll) == '3':
-            self.ed(answer, ll-1)
+        print('___________________________________________________________')
+        if len(self.lifeline) > 0:
+            print('Available lifeline are: ')
+            [print("{}: {}".format(j, self.lifeline[j])) for j in self.lifeline.keys()]
+            ll = int(input('Enter the number: '))
+            if ll in self.lifeline.keys():
+                if self.lifeline[ll] == '2x':
+                    del self.lifeline[ll]
+                    return self.func2x(question, answer)
+            #     if self.lifeline[ll-1] == 'NUll':
+            #         print('Already used !!')
+            #         self.lifelines(question, answer)
+            #     var = self.func2x(question, answer, ll-1)
+            #     return var
+                elif self.lifeline[ll] == 'Flip the question':
+                    del self.lifeline[ll]
+                    return self.process(self.ftq(question['id']))
+            # elif str(ll) == '2:':
+            #     new_question = self.ftq(question['id'], ll-1)
+            #     return self.process(new_question)
+                elif self.lifeline[ll] == 'Expert Advice':
+                    self.ed(answer)
+                    del self.lifeline[ll]
+                    return self .process(question)
+            # elif str(ll) == '3':
+            #     self.ed(answer, ll-1)
+            #     return self.process(question)
+        else:
+            print('No lifeline left')
+            print("You can quit the game if you don't know the answer.")
             return self.process(question)
 
-    def func2x(self, question, answer, index):
+    def func2x(self, question, answer):
         self.displayQuestion(question)
         print('Note: You can give two answers to this question, correct answer will be accepted')
         for i in range(2):
             ans = input('Answer: ')
             if answer == ans:
-                self.lifeline[index] = 'NUll'
                 return True
             else:
                 print('Oops!! wrong answer\nPlease try again')
         return False
 
-    def ftq(self, qid, index):
+    def ftq(self, qid):
         question = self.getQuestions(4)
         if question['id'] == qid:
             question = self.getQuestions(4)
-        self.lifeline[index] = 'NUll'
         return question
 
-    def ed(self, answer,  index):
+    @staticmethod
+    def ed(answer):
         print('I believe the answer is {}'.format(answer.upper()))
-        self.lifeline[index] = 'NUll'
 
 
 print('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=')
