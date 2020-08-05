@@ -152,15 +152,11 @@ print('                     Ultimate Quiz Game                     ')
 print('-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=')
 game = GameFlow()
 print('Rules:\n'
-      '1. Type quit as answer to quit the game\n'
-      '2. You will get 45 seconds to answer the questions 1-4\n'
-      '3. You will get 60 seconds to answer the questions 5-9\n'
-      '4. There shall not be any time limit after question 10\n'
-      '5. You will have 4 lifeline (2x, Flip the question, Expert Advice)\n'
-      "\t -type 'll' as answer for using lifelines\n"
-      '6. There will be two checkpoints at i)Q4\n'
-      '                                   ii)Q7')
+      '1. There will be two checkpoints at i)Q4, ii)Q7\n'
+      '2. Type quit as answer to quit the game\n'
+      '3. You will have 3 lifeline (2x, Flip the question, Expert Advice)\n'
+      "  -type 'll' as answer for using lifelines\n")
 input('               *Hit enter to start the game*                ')
 print('____________________________________________________________')
-name = input('Please Enter your name: ')
+name = input('Please enter your name: ')
 game.gameFlow()
